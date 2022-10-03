@@ -89,7 +89,8 @@
                         data-bs-target="#deleteEntry" aria-expanded="false" aria-controls="deleteEntry"
                         id="deleteTransaction">Delete</button>
                 </div>
-
+                <br>
+                <br>
             </div>
             <div class="collapse" id="newEntry">
                 <div class="card card-body">
@@ -145,7 +146,7 @@
                 </div>
                 <br>
                 <div class="form-floating mb-3">
-                    <input type="text" id="service" name="service" class="form-control" required>
+                    <input type="text" id="service" name="service" class="form-control service" required>
                     <label for="service">Service</label>
 
                 </div>
@@ -172,8 +173,8 @@
 
                 </div>
 
-               
-                <button type="button" id="submitButton" class="btn btn-primary">Submit Changes</button>
+
+                <button type="button" id="editFormSubmitButton" class="btn btn-primary">Submit Changes</button>
 
             </div>
 
@@ -184,7 +185,7 @@
                             <p>Insert item ID here to delete:</p>
                         </div>
                         <div class="col-6">
-                            <input type="text" id="id" name="id" class="form-control" required>
+                            <input type="text" id="deleteEntryId" name="id" class="form-control" required>
                         </div>
 
                     </div>
@@ -192,9 +193,38 @@
 
                 </div>
                 <br>
+                <br>
+                <div class="form-floating mb-3">
+                    <input type="text" id="service" name="service" class="form-control service" required disabled>
+                    <label for="service">Service</label>
 
-               
-                <button type="button" id="submitButton" class="btn btn-primary">Confirm Deletion</button>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" id="attendant" name="attendant" class="form-control" required disabled>
+                    <label for="attendant">Attendant:</label>
+
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" id="client" name="client" class="form-control" required disabled>
+                    <label for="client">Client</label>
+
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" id="price" name="price" class="form-control" required disabled>
+                    <label for="price">Price:</label>
+
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" id="paid" name="paid" class="form-control" required disabled>
+                    <label for="paid">Paid:</label>
+
+                </div>
+
+
+
+                <button type="button" id="confirmDeleteButton" class="btn btn-primary">Confirm Deletion</button>
 
             </div>
         </div>
@@ -231,7 +261,7 @@
     </div>
     <template id="listItemTemplate">
         <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingTwo">
+            <h2 class="accordion-header" id="">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                     <div class="container">
@@ -239,7 +269,7 @@
                             <div class="col-1 id"></div>
                             <div class="col-3 service"></div>
                             <div class="col-4 attendant"></div>
-                            <div class="col-4 client"></div>
+                            <div class="col-3 client"></div>
                         </div>
                     </div>
                 </button>
@@ -248,6 +278,25 @@
                 data-bs-parent="#listContainer">
                 <div class="accordion-body">
 
+                    <div class="row">
+                        <div class="col-6 "> <strong>Price:</strong></div>
+                        <div class="col-6 price"></div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-6 "><strong>Paid:</strong></div>
+                        <div class="col-6 haspaid"></div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-6 "><strong>Balance:</strong></div>
+                        <div class="col-6 balance"></div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -295,7 +344,6 @@
         </template>
 
             -->
-
     </div>
 
     <script src="js/bootstrap.bundle.min.js"></script>

@@ -172,14 +172,192 @@ function onDeviceReady() {
         document.getElementById("newEntry").classList.remove("show")
         document.getElementById("deleteEntry").classList.remove("show")
 
+        const submitChangesToDb = () => {
+
+            let editEntryId = document.getElementById("editEntryId").value
+
+            console.log(editEntryId)
+
+            //get listItem values
+            var listItem = document.getElementById(editEntryId)
+            console.log("getlistItem:", listItem)
+
+            if (listItem === null) {
+
+            } else {
+                var primaryKey = listItem.dataset.primaryKey
+                console.log("getPrimaryKey", primaryKey)
+
+                //get editForm values
+                var editForm = document.getElementById("editEntry")
+
+                service = editForm.querySelector("#service").value
+
+                attendant = editForm.querySelector("#attendant").value
+
+                client = editForm.querySelector("#client").value
+
+                price = Number(editForm.querySelector("#price").value)
+
+                paid = Number(editForm.querySelector("#paid").value)
+
+                //calculate balance
+                balance = price - paid
+
+
+
+                if (balance === 0) {
+                    hasPaid = true
+                } else {
+                    hasPaid = false
+                }
+
+                const request = window.indexedDB.open("rosacareposDB", 3);
+
+
+                request.onerror = (event) => {
+                    // Do something with request.errorCode!
+                    console.log("could not create database")
+                };
+                request.onsuccess = (event) => {
+                    // Do something with request.result!
+                    db = request.result
+
+
+                    // open a read/write db transaction, ready for retrieving the data
+                    const transaction = db.transaction("transactions", "readwrite");
+
+                    // report on the success of the transaction completing, when everything is done
+                    transaction.oncomplete = (event) => {
+                        console.log("Transaction completed.")
+                    };
+
+                    transaction.onerror = (event) => {
+                        console.log(transaction.error)
+                    };
+
+                    // create an object store on the transaction
+                    const objectStore = transaction.objectStore("transactions");
+
+                    // Make a request to get a record by key from the object store
+
+
+                    const objectStoreRequest = objectStore.openCursor();
+
+                    objectStoreRequest.onsuccess = (event) => {
+                        // report the success of our request
+                        const cursor = event.target.result;
+                        if (cursor) {
+                            if (cursor.value.id === primaryKey) {
+                                const updateData = cursor.value;
+
+                                updateData.service = service;
+                                updateData.attendant = attendant;
+                                updateData.client = client;
+                                updateData.price = price;
+                                updateData.hasPaid = hasPaid;
+                                updateData.balance = balance;
+
+
+
+                                const request = cursor.update(updateData);
+                                request.onsuccess = () => {
+                                    console.log('A better album year?');
+                                };
+                            };
+
+
+                            cursor.continue();
+                        } else {
+                            console.log('Entries displayed.');
+                        }
+                        fetchFromDB()
+                        document.getElementById("editEntry").classList.remove("show")
+
+
+                    };
+
+
+                };
+
+
+
+            }
+
+
+        }
+        //submit event listener
+        document.getElementById("editFormSubmitButton").addEventListener("click", submitChangesToDb)
+
+
         //get edit id 
         const getFormValues = () => {
             let editEntryId = document.getElementById("editEntryId").value
 
             console.log(editEntryId)
+
+            //get listItem values
+            var listItem = document.getElementById(editEntryId)
+            console.log("getlistItem:", listItem)
+
+            if (listItem === null) {
+
+            } else {
+                var primaryKey = listItem.dataset.primaryKey
+                console.log("getPrimaryKey", primaryKey)
+
+                var service = listItem.querySelector("div.col-3.service").innerHTML
+
+
+                var attendant = listItem.querySelector("div.col-4.attendant").innerHTML
+
+                var client = listItem.querySelector("div.col-4.client").innerHTML
+
+                var price = listItem.querySelector("div.col-6.price").innerHTML
+
+                var hasPaid = listItem.querySelector("div.col-6.haspaid").innerHTML
+
+
+                if (hasPaid === "YES") {
+                    hasPaid = true
+                } else {
+                    hasPaid = false
+                }
+
+
+
+                var balance = listItem.querySelector("div.col-6.balance").innerHTML
+
+
+                //set editForm values
+                var editForm = document.getElementById("editEntry")
+
+                serviceInput = editForm.querySelector("#service")
+                serviceInput.value = service
+
+                attendantInput = editForm.querySelector("#attendant")
+                attendantInput.value = attendant
+
+                clientInput = editForm.querySelector("#client")
+                clientInput.value = client
+
+                priceInput = editForm.querySelector("#price")
+                priceInput.value = price
+
+                paid = price - balance
+                paidInput = editForm.querySelector("#paid")
+                paidInput.value = paid
+
+            }
+
+
+
+
         }
 
         let idInput = document.getElementById("editEntryId").addEventListener("keyup", getFormValues)
+
+
 
     }
 
@@ -191,6 +369,181 @@ function onDeviceReady() {
         //hide edit and new
         document.getElementById("newEntry").classList.remove("show")
         document.getElementById("editEntry").classList.remove("show")
+
+        const deleteEntryFromDB = () => {
+            let deleteEntryId = document.getElementById("deleteEntryId").value
+
+            console.log(deleteEntryId)
+
+            //get listItem values
+            var listItem = document.getElementById(deleteEntryId)
+            console.log("getlistItem:", listItem)
+
+            if (listItem === null) {
+
+            } else {
+                var primaryKey = listItem.dataset.primaryKey
+                console.log("getPrimaryKey", primaryKey)
+
+                //get editForm values
+                var editForm = document.getElementById("editEntry")
+
+                service = editForm.querySelector("#service").value
+
+                attendant = editForm.querySelector("#attendant").value
+
+                client = editForm.querySelector("#client").value
+
+                price = Number(editForm.querySelector("#price").value)
+
+                paid = Number(editForm.querySelector("#paid").value)
+
+                //calculate balance
+                balance = price - paid
+
+
+
+                if (balance === 0) {
+                    hasPaid = true
+                } else {
+                    hasPaid = false
+                }
+
+                const request = window.indexedDB.open("rosacareposDB", 3);
+
+
+                request.onerror = (event) => {
+                    // Do something with request.errorCode!
+                    console.log("could not create database")
+                };
+                request.onsuccess = (event) => {
+                    // Do something with request.result!
+                    db = request.result
+
+
+                    // open a read/write db transaction, ready for retrieving the data
+                    const transaction = db.transaction("transactions", "readwrite");
+
+                    // report on the success of the transaction completing, when everything is done
+                    transaction.oncomplete = (event) => {
+                        console.log("Transaction completed.")
+                    };
+
+                    transaction.onerror = (event) => {
+                        console.log(transaction.error)
+                    };
+
+                    // create an object store on the transaction
+                    const objectStore = transaction.objectStore("transactions");
+
+                    // Make a request to get a record by key from the object store
+
+
+                    const objectStoreRequest = objectStore.openCursor();
+
+                    objectStoreRequest.onsuccess = (event) => {
+                        // report the success of our request
+                        const cursor = event.target.result;
+                        if (cursor) {
+                            if (cursor.value.id === primaryKey) {
+                                
+
+
+                                const request = cursor.delete();
+                                request.onsuccess = () => {
+                                    console.log('A better album year?');
+                                };
+                            };
+
+
+                            cursor.continue();
+                        } else {
+                            console.log('Entries displayed.');
+                        }
+                        fetchFromDB()
+                        document.getElementById("deleteEntry").classList.remove("show")
+
+
+                    };
+
+
+                };
+
+
+
+            }
+        }
+
+        document.getElementById("confirmDeleteButton").addEventListener("click", deleteEntryFromDB)
+
+
+        //get edit id 
+        const getFormValues = () => {
+            let deleteEntryId = document.getElementById("deleteEntryId").value
+
+            console.log(deleteEntryId)
+
+            //get listItem values
+            var listItem = document.getElementById(deleteEntryId)
+            console.log("getlistItem:", listItem)
+
+            if (listItem === null) {
+
+            } else {
+                var primaryKey = listItem.dataset.primaryKey
+                console.log("getPrimaryKey", primaryKey)
+
+                var service = listItem.querySelector("div.col-3.service").innerHTML
+
+
+                var attendant = listItem.querySelector("div.col-4.attendant").innerHTML
+
+                var client = listItem.querySelector("div.col-4.client").innerHTML
+
+                var price = listItem.querySelector("div.col-6.price").innerHTML
+
+                var hasPaid = listItem.querySelector("div.col-6.haspaid").innerHTML
+
+
+                if (hasPaid === "YES") {
+                    hasPaid = true
+                } else {
+                    hasPaid = false
+                }
+
+
+
+                var balance = listItem.querySelector("div.col-6.balance").innerHTML
+
+
+                //set editForm values
+                var editForm = document.getElementById("deleteEntry")
+
+                serviceInput = editForm.querySelector("#service")
+                serviceInput.value = service
+
+                attendantInput = editForm.querySelector("#attendant")
+                attendantInput.value = attendant
+
+                clientInput = editForm.querySelector("#client")
+                clientInput.value = client
+
+                priceInput = editForm.querySelector("#price")
+                priceInput.value = price
+
+                paid = price - balance
+                paidInput = editForm.querySelector("#paid")
+                paidInput.value = paid
+
+            }
+
+
+
+
+        }
+
+        let idInput = document.getElementById("deleteEntryId").addEventListener("keyup", getFormValues)
+
     }
     const deleteTransactionInputButton = document.getElementById("deleteTransaction")
     deleteTransactionInputButton.addEventListener("click", processDeleteInput)
@@ -362,10 +715,13 @@ function onDeviceReady() {
 
             const listItem = template.content.firstElementChild.cloneNode(true);
 
-
+            //set content
+            listItem.id = index + 1
+            listItem.dataset.primaryKey = element.id
 
             var id = listItem.querySelector("div.col-1.id")
             id.innerText = index + 1
+
 
             var service = listItem.querySelector("div.col-3.service")
             service.innerText = element.service
@@ -373,9 +729,38 @@ function onDeviceReady() {
             var attendant = listItem.querySelector("div.col-4.attendant")
             attendant.innerText = element.attendant
 
-            var client = listItem.querySelector("div.col-4.client")
+            var client = listItem.querySelector("div.col-3.client")
             client.innerText = element.client
 
+            var price = listItem.querySelector("div.col-6.price")
+            price.innerText = element.price
+
+            if (element.hasPaid === false) {
+                var hasPaid = listItem.querySelector("div.col-6.haspaid")
+                hasPaid.innerText = "NO"
+            } else {
+                var hasPaid = listItem.querySelector("div.col-6.haspaid")
+                hasPaid.innerText = "Yes"
+            }
+
+
+
+            var balance = listItem.querySelector("div.col-6.balance")
+            balance.innerText = element.balance
+
+
+            //set accordion 
+            var entryId = element.id
+
+            var accordionHeader = listItem.querySelector("h2.accordion-header")
+            accordionHeader.id = "flush-heading" + entryId
+
+            var accordionButton = listItem.querySelector("button.accordion-button")
+            //accordionButton.aria - controls = "flush-collapse" + entryId
+            accordionButton.dataset.bsTarget = "#flush-collapse" + entryId
+
+            var accordionCollapse = listItem.querySelector("div.accordion-collapse")
+            accordionCollapse.id = "flush-collapse" + entryId
 
             console.log(listItem)
 
