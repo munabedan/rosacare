@@ -74,21 +74,16 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-4">
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
-                        data-bs-target="#newEntry" aria-expanded="false" aria-controls="newEntry"
-                        id="addTransaction">New</button>
+                <div class="col-12">
+
+                    <div class="d-grid gap-1 d-md-block">
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
+                            data-bs-target="#newEntry" aria-expanded="false" aria-controls="newEntry"
+                            id="addTransaction">New</button>
+                    </div>
+
                 </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
-                        data-bs-target="#editEntry" aria-expanded="false" aria-controls="editEntry"
-                        id="editTransaction">Edit</button>
-                </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="collapse"
-                        data-bs-target="#deleteEntry" aria-expanded="false" aria-controls="deleteEntry"
-                        id="deleteTransaction">Delete</button>
-                </div>
+
                 <br>
                 <br>
             </div>
@@ -130,103 +125,7 @@
                 </div>
             </div>
 
-            <div class="collapse" id="editEntry">
-                <div class="card card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <p>Insert item ID here to edit:</p>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" id="editEntryId" name="id" class="form-control" required>
-                        </div>
 
-                    </div>
-
-
-                </div>
-                <br>
-                <div class="form-floating mb-3">
-                    <input type="text" id="service" name="service" class="form-control service" required>
-                    <label for="service">Service</label>
-
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" id="attendant" name="attendant" class="form-control" required>
-                    <label for="attendant">Attendant:</label>
-
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" id="client" name="client" class="form-control" required>
-                    <label for="client">Client</label>
-
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" id="price" name="price" class="form-control" required>
-                    <label for="price">Price:</label>
-
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" id="paid" name="paid" class="form-control" required>
-                    <label for="paid">Paid:</label>
-
-                </div>
-
-
-                <button type="button" id="editFormSubmitButton" class="btn btn-primary">Submit Changes</button>
-
-            </div>
-
-            <div class="collapse" id="deleteEntry">
-                <div class="card card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <p>Insert item ID here to delete:</p>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" id="deleteEntryId" name="id" class="form-control" required>
-                        </div>
-
-                    </div>
-
-
-                </div>
-                <br>
-                <br>
-                <div class="form-floating mb-3">
-                    <input type="text" id="service" name="service" class="form-control service" required disabled>
-                    <label for="service">Service</label>
-
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" id="attendant" name="attendant" class="form-control" required disabled>
-                    <label for="attendant">Attendant:</label>
-
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" id="client" name="client" class="form-control" required disabled>
-                    <label for="client">Client</label>
-
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" id="price" name="price" class="form-control" required disabled>
-                    <label for="price">Price:</label>
-
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" id="paid" name="paid" class="form-control" required disabled>
-                    <label for="paid">Paid:</label>
-
-                </div>
-
-
-
-                <button type="button" id="confirmDeleteButton" class="btn btn-primary">Confirm Deletion</button>
-
-            </div>
         </div>
 
 
@@ -247,9 +146,8 @@
     <div class="container">
         <div class="row" style="padding: 16px;">
             <div class="col-1"> <strong>Id</strong> </div>
-            <div class="col-3"> <strong>Service</strong> </div>
-            <div class="col-4"> <strong>Attendant</strong> </div>
-            <div class="col-4"> <strong>Client</strong> </div>
+            <div class="col-4"> <strong>Service</strong> </div>
+            <div class="col-5"> <strong>Attendant</strong> </div>
         </div>
 
     </div>
@@ -267,9 +165,8 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-1 id"></div>
-                            <div class="col-3 service"></div>
-                            <div class="col-4 attendant"></div>
-                            <div class="col-3 client"></div>
+                            <div class="col-4 service"></div>
+                            <div class="col-5 attendant"></div>
                         </div>
                     </div>
                 </button>
@@ -277,6 +174,11 @@
             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
                 data-bs-parent="#listContainer">
                 <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-6 "> <strong>Client:</strong></div>
+                        <div class="col-6 client"></div>
+
+                    </div>
 
                     <div class="row">
                         <div class="col-6 "> <strong>Price:</strong></div>
@@ -296,6 +198,67 @@
                         <div class="col-6 "><strong>Balance:</strong></div>
                         <div class="col-6 balance"></div>
 
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+
+                                <div class="d-grid gap-1 d-md-block">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
+                                        data-bs-target="#editEntry" aria-expanded="false" aria-controls="editEntry"
+                                        >Edit</button>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="d-grid gap-1 d-md-block">
+                                    <button type="button" class="btn btn-outline-danger" 
+                                       >Delete</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="collapse editentry" id="editEntry">
+                           
+                            <br>
+                            <div class="form-floating mb-3">
+                                <input type="text" id="service" name="service" class="form-control service" required>
+                                <label for="service">Service</label>
+
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" id="attendant" name="attendant" class="form-control" required>
+                                <label for="attendant">Attendant:</label>
+
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" id="client" name="client" class="form-control" required>
+                                <label for="client">Client</label>
+
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" id="price" name="price" class="form-control" required>
+                                <label for="price">Price:</label>
+
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" id="paid" name="paid" class="form-control" required>
+                                <label for="paid">Paid:</label>
+
+                            </div>
+
+
+                            <button type="button" class="btn btn-primary editformbutton">Submit
+                                Changes</button>
+
+                        </div>
+
+                        
                     </div>
                 </div>
             </div>

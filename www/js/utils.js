@@ -39,11 +39,11 @@ const loadPresets = () => {
         const newTransactionInputButton = document.getElementById("addTransaction")
         newTransactionInputButton.addEventListener("click", processNewInput)
 
-        const editTransactionInputButton = document.getElementById("editTransaction")
+        /*const editTransactionInputButton = document.getElementById("editTransaction")
         editTransactionInputButton.addEventListener("click", processEditInput)
 
         const deleteTransactionInputButton = document.getElementById("deleteTransaction")
-        deleteTransactionInputButton.addEventListener("click", processDeleteInput)
+        deleteTransactionInputButton.addEventListener("click", processDeleteInput)*/
 
         datePicker.addEventListener("change", processDatePickerInput)
     })();

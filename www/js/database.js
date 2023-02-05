@@ -136,8 +136,8 @@ const updateTransaction = (transactionOBJ) => {
             } else {
                 console.log('Entries displayed.');
             }
-            updateTable()
-            document.getElementById("editEntry").classList.remove("show")
+            //updateTable()
+            //document.querySelector("div.editentry").classList.remove("show")
 
 
         };
@@ -202,9 +202,10 @@ const deleteTransaction = (transactionOBJ) => {
                 cursor.continue();
             } else {
                 console.log('Entries displayed.');
+                //updateTable()
+
             }
-            updateTable()
-            document.getElementById("deleteEntry").classList.remove("show")
+            //document.querySelectorAll().classList.remove("show")
 
 
         };

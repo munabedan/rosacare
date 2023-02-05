@@ -25,13 +25,13 @@ const updateTableRows = (res) => {
         id.innerText = index + 1
 
 
-        var service = listItem.querySelector("div.col-3.service")
+        var service = listItem.querySelector("div.col-4.service")
         service.innerText = element.service
 
-        var attendant = listItem.querySelector("div.col-4.attendant")
+        var attendant = listItem.querySelector("div.col-5.attendant")
         attendant.innerText = element.attendant
 
-        var client = listItem.querySelector("div.col-3.client")
+        var client = listItem.querySelector("div.col-6.client")
         client.innerText = element.client
 
         var price = listItem.querySelector("div.col-6.price")
@@ -58,13 +58,41 @@ const updateTableRows = (res) => {
         accordionHeader.id = "flush-heading" + entryId
 
         var accordionButton = listItem.querySelector("button.accordion-button")
-        //accordionButton.aria - controls = "flush-collapse" + entryId
+       
         accordionButton.dataset.bsTarget = "#flush-collapse" + entryId
 
         var accordionCollapse = listItem.querySelector("div.accordion-collapse")
         accordionCollapse.id = "flush-collapse" + entryId
 
+
+        //set accordionButtons
+        //edit button
+        editButton = listItem.querySelector("button.btn.btn-outline-primary")
+        editButton.dataset.bsTarget = "#editEntry"+entryId
+        editButton.setAttribute("aria-contols" , "editEntry" + entryId)
+
+        editCollapse = listItem.querySelector("div.editentry")
+        editCollapse.id = "editEntry" + entryId
+
+        //delete button
+        
+
+        // set event listeners
+
+        const editTransactionInputButton = listItem.querySelector("button.btn.btn-outline-primary")
+        editTransactionInputButton.addEventListener("click", ()=>{
+            processEditInput(listItem)
+        })
+
+
+        const deleteTransactionInputButton = listItem.querySelector("button.btn.btn-outline-danger")
+        deleteTransactionInputButton.addEventListener("click", ()=>{
+            processDeleteInput(listItem)
+        })
+
         console.log(listItem)
+
+
 
         container.appendChild(listItem)
     }
@@ -74,6 +102,6 @@ const updateTableRows = (res) => {
 
 }
 //update table
-const updateTable = ()=>{
+const updateTable = () => {
     readTransaction()
 }

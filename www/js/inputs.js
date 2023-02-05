@@ -1,8 +1,8 @@
 //show input
 const processNewInput = () => {
     //hide edit and delete
-    document.getElementById("editEntry").classList.remove("show")
-    document.getElementById("deleteEntry").classList.remove("show")
+    /*document.getElementById("editEntry").classList.remove("show")
+    document.getElementById("deleteEntry").classList.remove("show")*/
 
     //read  input values
     const readInputs = () => {
@@ -46,6 +46,17 @@ const processNewInput = () => {
 
 
         //document.getElementById("inputContainer").innerHTML = "";
+        const resetNewInputValues = () => {
+            document.querySelector("input#service.form-control").value = ""
+            document.querySelector("input#attendant.form-control").value = ""
+            document.querySelector("input#client.form-control").value = ""
+            document.querySelector("input#price.form-control").value = ""
+            document.querySelector("input#paid.form-control").value = ""
+        }
+
+        resetNewInputValues()
+
+
         document.getElementById("newEntry").classList.remove("show")
     }
 
@@ -60,29 +71,29 @@ const processNewInput = () => {
 
 
 // edit entry
-const processEditInput = () => {
+const processEditInput = (listItem) => {
+
     //hide new and delete
     document.getElementById("newEntry").classList.remove("show")
     document.getElementById("deleteEntry").classList.remove("show")
 
+
     const submitChangesToDb = () => {
 
-        let editEntryId = document.getElementById("editEntryId").value
+        /*let editEntryId = document.getElementById("editEntryId").value
 
-        console.log(editEntryId)
+        console.log(editEntryId)*/
 
         //get listItem values
-        var listItem = document.getElementById(editEntryId)
-        console.log("getlistItem:", listItem)
+        /*var listItem = document.getElementById(editEntryId)*/
 
         if (listItem === null) {
 
         } else {
             var primaryKey = listItem.dataset.primaryKey
-            console.log("getPrimaryKey", primaryKey)
 
             //get editForm values
-            var editForm = document.getElementById("editEntry")
+            var editForm = listItem.querySelector("div.editentry")
 
             service = editForm.querySelector("#service").value
 
@@ -112,7 +123,7 @@ const processEditInput = () => {
                 price: price,
                 hasPaid: hasPaid,
                 balance: balance,
-                date: today,
+                date: getDateToday(),
                 id: primaryKey
             }
             updateTransaction(transactionOBJ)
@@ -123,75 +134,70 @@ const processEditInput = () => {
 
     }
     //submit event listener
-    document.getElementById("editFormSubmitButton").addEventListener("click", submitChangesToDb)
+    listItem.querySelector("button.btn.btn-primary.editformbutton").addEventListener("click", submitChangesToDb)
 
 
-    //get edit id 
-    const getFormValues = () => {
-        let editEntryId = document.getElementById("editEntryId").value
 
-        console.log(editEntryId)
 
-        //get listItem values
-        var listItem = document.getElementById(editEntryId)
-        console.log("getlistItem:", listItem)
+    if (listItem === null) {
 
-        if (listItem === null) {
+    } else {
+        //get id
 
+        var primaryKey = listItem.dataset.primaryKey
+
+        var service = listItem.querySelector("div.col-4.service").innerHTML
+
+
+        var attendant = listItem.querySelector("div.col-5.attendant").innerHTML
+
+        var client = listItem.querySelector("div.col-6.client").innerHTML
+
+        var price = listItem.querySelector("div.col-6.price").innerHTML
+
+        var hasPaid = listItem.querySelector("div.col-6.haspaid").innerHTML
+
+
+        if (hasPaid === "YES") {
+            hasPaid = true
         } else {
-            var primaryKey = listItem.dataset.primaryKey
-            console.log("getPrimaryKey", primaryKey)
-
-            var service = listItem.querySelector("div.col-3.service").innerHTML
-
-
-            var attendant = listItem.querySelector("div.col-4.attendant").innerHTML
-
-            var client = listItem.querySelector("div.col-4.client").innerHTML
-
-            var price = listItem.querySelector("div.col-6.price").innerHTML
-
-            var hasPaid = listItem.querySelector("div.col-6.haspaid").innerHTML
-
-
-            if (hasPaid === "YES") {
-                hasPaid = true
-            } else {
-                hasPaid = false
-            }
-
-
-
-            var balance = listItem.querySelector("div.col-6.balance").innerHTML
-
-
-            //set editForm values
-            var editForm = document.getElementById("editEntry")
-
-            serviceInput = editForm.querySelector("#service")
-            serviceInput.value = service
-
-            attendantInput = editForm.querySelector("#attendant")
-            attendantInput.value = attendant
-
-            clientInput = editForm.querySelector("#client")
-            clientInput.value = client
-
-            priceInput = editForm.querySelector("#price")
-            priceInput.value = price
-
-            paid = price - balance
-            paidInput = editForm.querySelector("#paid")
-            paidInput.value = paid
-
+            hasPaid = false
         }
 
 
 
+        var balance = listItem.querySelector("div.col-6.balance").innerHTML
+
+
+        //set editForm values
+        var editForm = listItem.querySelector("div.editentry")
+
+
+        serviceInput = editForm.querySelector("#service")
+        serviceInput.value = service
+
+        attendantInput = editForm.querySelector("#attendant")
+        attendantInput.value = attendant
+
+        clientInput = editForm.querySelector("#client")
+        clientInput.value = client
+
+        priceInput = editForm.querySelector("#price")
+        priceInput.value = price
+
+        paid = price - balance
+        paidInput = editForm.querySelector("#paid")
+        paidInput.value = paid
 
     }
 
-    let idInput = document.getElementById("editEntryId").addEventListener("keyup", getFormValues)
+
+
+
+
+
+    //let idInput = document.getElementById("editEntryId").addEventListener("keyup", getFormValues)
+
 
 
 
@@ -200,137 +206,34 @@ const processEditInput = () => {
 
 
 // delete entry
-const processDeleteInput = () => {
+const processDeleteInput = (listItem) => {
     //hide edit and new
-    document.getElementById("newEntry").classList.remove("show")
-    document.getElementById("editEntry").classList.remove("show")
+    //document.getElementById("newEntry").classList.remove("show")
+    //document.getElementById("editEntry").classList.remove("show")
 
-    const deleteEntryFromDB = () => {
-        let deleteEntryId = document.getElementById("deleteEntryId").value
+    console.log("processDeleteItem",listItem)
 
-        console.log(deleteEntryId)
+    if (listItem === null) {
+        console.log("null list item")
 
-        //get listItem values
-        var listItem = document.getElementById(deleteEntryId)
-        console.log("getlistItem:", listItem)
+    } else {
+        var primaryKey = listItem.dataset.primaryKey
+        console.log("getPrimaryKey", primaryKey)
 
-        if (listItem === null) {
-
-        } else {
-            var primaryKey = listItem.dataset.primaryKey
-            console.log("getPrimaryKey", primaryKey)
-
-            //get editForm values
-            var editForm = document.getElementById("editEntry")
-
-            service = editForm.querySelector("#service").value
-
-            attendant = editForm.querySelector("#attendant").value
-
-            client = editForm.querySelector("#client").value
-
-            price = Number(editForm.querySelector("#price").value)
-
-            paid = Number(editForm.querySelector("#paid").value)
-
-            //calculate balance
-            balance = price - paid
-
-
-
-            if (balance === 0) {
-                hasPaid = true
-            } else {
-                hasPaid = false
-            }
-
-            transactionOBJ = {
-                service: service,
-                attendant: attendant,
-                client: client,
-                price: price,
-                hasPaid: hasPaid,
-                balance: balance,
-                date: today,
-                id: primaryKey
-            }
-
-            deleteTransaction(transactionOBJ)
-
-
-
+        
+        transactionOBJ = {
+            
+            id: primaryKey
         }
-    }
 
-    document.getElementById("confirmDeleteButton").addEventListener("click", deleteEntryFromDB)
-
-
-    //get edit id 
-    const getFormValues = () => {
-        let deleteEntryId = document.getElementById("deleteEntryId").value
-
-        console.log(deleteEntryId)
-
-        //get listItem values
-        var listItem = document.getElementById(deleteEntryId)
-        console.log("getlistItem:", listItem)
-
-        if (listItem === null) {
-
-        } else {
-            var primaryKey = listItem.dataset.primaryKey
-            console.log("getPrimaryKey", primaryKey)
-
-            var service = listItem.querySelector("div.col-3.service").innerHTML
-
-
-            var attendant = listItem.querySelector("div.col-4.attendant").innerHTML
-
-            var client = listItem.querySelector("div.col-4.client").innerHTML
-
-            var price = listItem.querySelector("div.col-6.price").innerHTML
-
-            var hasPaid = listItem.querySelector("div.col-6.haspaid").innerHTML
-
-
-            if (hasPaid === "YES") {
-                hasPaid = true
-            } else {
-                hasPaid = false
-            }
-
-
-
-            var balance = listItem.querySelector("div.col-6.balance").innerHTML
-
-
-            //set editForm values
-            var editForm = document.getElementById("deleteEntry")
-
-            serviceInput = editForm.querySelector("#service")
-            serviceInput.value = service
-
-            attendantInput = editForm.querySelector("#attendant")
-            attendantInput.value = attendant
-
-            clientInput = editForm.querySelector("#client")
-            clientInput.value = client
-
-            priceInput = editForm.querySelector("#price")
-            priceInput.value = price
-
-            paid = price - balance
-            paidInput = editForm.querySelector("#paid")
-            paidInput.value = paid
-
-        }
+        deleteTransaction(transactionOBJ)
 
 
 
 
     }
 
-    let idInput = document.getElementById("deleteEntryId").addEventListener("keyup", getFormValues)
+
 
 }
 
